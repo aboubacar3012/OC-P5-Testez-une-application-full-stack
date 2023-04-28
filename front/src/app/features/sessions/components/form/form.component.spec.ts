@@ -14,46 +14,119 @@ import { SessionService } from 'src/app/services/session.service';
 import { SessionApiService } from '../../services/session-api.service';
 
 import { FormComponent } from './form.component';
+import {TeacherService} from "../../../../services/teacher.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {SessionInformation} from "../../../../interfaces/sessionInformation.interface";
+import {Location} from "@angular/common";
+import {ListComponent} from "../list/list.component";
+import {of} from "rxjs";
+import {Session} from "../../interfaces/session.interface";
 
 describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
+  let router:Router;
 
-  const mockSessionService = {
-    sessionInformation: {
-      admin: true
-    }
-  } 
+  // let teacherServiceMock: jest.Mocked<TeacherService>;
+  let routerServiceMock: jest.Mocked<Router>
+  // let sessionApiServiceMock: jest.Mocked<SessionApiService>;
+  let sessionServiceMock: jest.Mocked<SessionService>;
+  // let activatedRouteMock: jest.Mocked<ActivatedRoute>;
+
+  //  sessionServiceMock = {
+  //   sessionInformation: {
+  //     admin: true
+  //   }
+  // }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
+    const routerMock = {navigate: jest.fn()}
 
+    // sessionApiServiceMock = {
+    //   detail: jest.fn(),
+    //   create: jest.fn(),
+    //   update: jest.fn()
+    // } as unknown as jest.Mocked<SessionApiService>;
+
+    const sessionMock = {
+      sessionInformation:{
+        admin: true
+      } as SessionInformation
+    }
+
+    // teacherServiceMock = {
+    //   all: jest.fn()
+    // } as unknown as jest.Mocked<TeacherService>;
+    //
+    // activatedRouteMock = {
+    //   snapshot: {
+    //     paramMap: {
+    //       get: jest.fn()
+    //     }
+    //   }
+    // } as unknown as jest.Mocked<ActivatedRoute>;
+
+    await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: "sessions", component: ListComponent },
+          { path: "**", redirectTo: "" }
+        ]),
         HttpClientModule,
         MatCardModule,
         MatIconModule,
         MatFormFieldModule,
         MatInputModule,
-        ReactiveFormsModule, 
+        ReactiveFormsModule,
         MatSnackBarModule,
         MatSelectModule,
         BrowserAnimationsModule
       ],
+      declarations: [FormComponent],
       providers: [
-        { provide: SessionService, useValue: mockSessionService },
-        SessionApiService
+        // {provide: Router, useValue: routerMock },
+        { provide: SessionService, useValue: sessionMock },
+        // { provide: SessionApiService, useValue: sessionApiServiceMock },
+        // { provide: TeacherService, useValue: teacherServiceMock },
+        // { provide: ActivatedRoute, useValue: activatedRouteMock }
+        // SessionApiService
       ],
-      declarations: [FormComponent]
     })
       .compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(FormComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+    // router.initialNavigation()
+    sessionServiceMock = TestBed.inject(SessionService) as jest.Mocked<SessionService>;
+    // routerServiceMock = TestBed.inject(Router) as jest.Mocked<Router>;
+
     fixture.detectChanges();
-  });
+  })
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should redirect to sessions when not admin', () => {
+    if (sessionServiceMock.sessionInformation) {
+      sessionServiceMock.sessionInformation.admin = false;
+    }
+
+    const routerNavigateSpy = jest
+      .spyOn(router, 'navigate')
+      .mockResolvedValue(true)
+
+    component.ngOnInit();
+    expect(routerNavigateSpy).toHaveBeenCalledWith(['/sessions']);
+  });
+
+
+  // it('should set onUpdate flag and call sessionApiService.detail() when route contains "update"', () => {
+  //   const session: Session = { id: 1, name: 'Session 1', date: new Date() };
+  //   const detailSpy = jest.spyOn(sessionApiService, 'detail').mockReturnValue(of(session));
+  // })
+
 });

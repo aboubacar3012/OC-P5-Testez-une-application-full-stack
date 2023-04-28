@@ -20,10 +20,7 @@ Launch Front-end:
 
 > npm run start;
 
-
 ## Ressources
-
-### Mockoon env 
 
 ### Postman collection
 
@@ -44,8 +41,12 @@ By default the admin account is:
 - login: yoga@studio.com
 - password: test!1234
 
+### Test Frontend
 
-### Test
+For launch and generate the jacoco code coverage:
+> mvn clean test
+
+### Test Frontend
 
 #### E2E
 

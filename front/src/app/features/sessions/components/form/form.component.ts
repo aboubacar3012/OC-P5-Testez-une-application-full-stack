@@ -31,9 +31,12 @@ export class FormComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.router.navigate(['/sessions']);
+
     if (!this.sessionService.sessionInformation!.admin) {
       this.router.navigate(['/sessions']);
     }
+
     const url = this.router.url;
     if (url.includes('update')) {
       this.onUpdate = true;

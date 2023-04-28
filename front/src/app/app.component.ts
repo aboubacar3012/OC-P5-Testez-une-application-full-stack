@@ -25,4 +25,6 @@ export class AppComponent {
     this.sessionService.logOut();
     this.router.navigate([''])
   }
+
+
 }

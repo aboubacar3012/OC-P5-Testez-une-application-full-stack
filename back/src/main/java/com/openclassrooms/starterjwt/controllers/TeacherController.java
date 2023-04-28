@@ -42,4 +42,5 @@ public class TeacherController {
 
         return ResponseEntity.ok().body(this.teacherMapper.toDto(teachers));
     }
+
 }
