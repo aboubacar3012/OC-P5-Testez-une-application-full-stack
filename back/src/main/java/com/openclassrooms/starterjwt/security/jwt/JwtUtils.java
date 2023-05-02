@@ -2,6 +2,7 @@ package com.openclassrooms.starterjwt.security.jwt;
 
 import java.util.Date;
 
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 
 @Component
+@Data
 public class JwtUtils {
   private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
