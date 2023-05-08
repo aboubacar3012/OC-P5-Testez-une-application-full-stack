@@ -103,4 +103,34 @@ public class SignupRequestTest {
         assertThat(violation.getPropertyPath().toString()).isEqualTo("lastName");
     }
 
+    @Test
+    public void testEqualsAndHashCode() {
+        SignupRequest request1 = new SignupRequest();
+        request1.setEmail("test1@test.com");
+        request1.setFirstName("John");
+        request1.setLastName("Doe");
+        request1.setPassword("password1");
+
+        SignupRequest request2 = new SignupRequest();
+        request2.setEmail("test1@test.com");
+        request2.setFirstName("John");
+        request2.setLastName("Doe");
+        request2.setPassword("password1");
+
+        assertThat(request1).isEqualTo(request2);
+        assertThat(request1.hashCode()).isEqualTo(request2.hashCode());
+    }
+
+    @Test
+    public void testToString() {
+        SignupRequest request = new SignupRequest();
+        request.setEmail("test1@test.com");
+        request.setFirstName("John");
+        request.setLastName("Doe");
+        request.setPassword("password1");
+
+        String expectedString = "SignupRequest(email=test1@test.com, firstName=John, lastName=Doe, password=password1)";
+        assertThat(request.toString()).isEqualTo(expectedString);
+    }
+
 }

@@ -26,8 +26,8 @@ describe('Login spec', () => {
       },
       []).as('session')
 
-    cy.get('input[formControlName=email]').type("")
-    
+    cy.get('input[formControlName=email]').type("test@test.com")
+
     cy.get('input[formControlName=password]').type(`${"test!1234"}{enter}{enter}`)
 
     cy.url().should('include', '/sessions')

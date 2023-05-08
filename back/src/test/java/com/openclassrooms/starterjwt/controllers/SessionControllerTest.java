@@ -30,9 +30,14 @@ public class SessionControllerTest {
 
     private SessionController sessionController;
 
+    private SessionDto sessionDto;
+
+    private Session session;
+
     @BeforeEach
     public void setUp(){
         sessionController = new SessionController(sessionService, sessionMapper);
+
     }
 
     @AfterEach
